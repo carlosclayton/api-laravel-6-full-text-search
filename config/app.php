@@ -169,6 +169,7 @@ return [
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
         /*
          * Application Service Providers...
          */

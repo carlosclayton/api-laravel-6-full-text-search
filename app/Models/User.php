@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Notifications\changeResetPassword;
+use App\Configurator\UserIndexConfigurator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use ScoutElastic\Searchable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -53,6 +55,38 @@ class User extends Authenticatable implements Transformable, JWTSubject
     use Notifiable;
 
     use SoftDeletes;
+
+    use Searchable;
+
+    /**
+     * @var string
+     */
+    protected $indexConfigurator = UserIndexConfigurator::class;
+
+    /**
+     * @var array
+     */
+    protected $searchRules = [
+        //
+    ];
+
+    /**
+     * @var array
+     */
+    protected $mapping = [
+        'properties' => [
+            'title' => [
+                'type' => 'text',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'keyword',
+                    ]
+                ]
+            ],
+        ]
+    ];
+
+
     protected $dates = ['deleted_at'];
 
     const ROLE_ADMIN = 1;
